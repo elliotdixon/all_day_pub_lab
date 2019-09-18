@@ -7,11 +7,11 @@ require_relative("../Drinks.rb")
 class TestPub < MiniTest::Test
 
   def setup()
-    @drink1 = Drinks.new("IPA", 5)
-    @drink2 = Drinks.new("Peroni", 6)
-    @drink3 = Drinks.new("Moretti", 7)
+    @drink1 = Drinks.new("IPA", 5, 2)
+    @drink2 = Drinks.new("Peroni", 6, 4)
+    @drink3 = Drinks.new("Moretti", 7, 6)
     @pub = Pub.new("Rafas", 500, [@drink1, @drink2, @drink3])
-    @customer = Customer.new("Elliot", 500)
+    @customer = Customer.new("Elliot", 500, 21, 0)
   end
 
   def test_pub_name()
@@ -32,16 +32,20 @@ class TestPub < MiniTest::Test
   end
 
   def test_can_increase_pub_till()
-    @pub.increase_pub_till(5)
+    @pub.sell_drink(@drink1)
     assert_equal(505, @pub.pub_till)
   end
 
   def test_customer_buy_drink()
-    @customer.buy_drink(@pub, @drink1)
-    @pub.increase_pub_till(5)
+    @customer.buy_drink(@drink1)
+    @pub.sell_drink(@drink1)
+    assert_equal(21, @customer.age)
     assert_equal(505, @pub.pub_till)
     assert_equal(495, @customer.wallet)
   end
+
+
+
 
 
 
